@@ -1,0 +1,38 @@
+---
+title: Evaluator
+---
+
+Fit outcomes and score/predict prompt performance using a logistic regression approach inspired by IRT.
+
+## Import
+
+```python
+from evalit.evaluate import Evaluator
+```
+
+## Fit and score
+
+```python
+from evalit.evaluate import Evaluator
+
+# Each record: prompt_name, example_id, outcome (1 correct, 0 incorrect)
+data = [
+    {"prompt_name": "control", "example_id": "1", "outcome": 1},
+    {"prompt_name": "control", "example_id": "2", "outcome": 0},
+    {"prompt_name": "challenger", "example_id": "1", "outcome": 1},
+]
+
+evaluator = Evaluator()
+evaluator.fit(data)
+
+scores = evaluator.get_scores()
+print(scores)  # {"control": 0.12, "challenger": 0.35}
+
+# Predict average success probability across known examples
+p = evaluator.predict_performance("control")
+print(p)  # 0.0 - 1.0
+```
+
+## Error handling
+- fit([]) raises ValueError
+- get_scores() or predict_performance() before fit() raises RuntimeError

@@ -48,6 +48,20 @@
         ]
       },
       {
+        "tab": "SDKs",
+        "groups": [
+          {
+            "group": "Python",
+            "pages": [
+              "sdk/python/overview",
+              "sdk/python/prompt-manager",
+              "sdk/python/experiment",
+              "sdk/python/evaluator"
+            ]
+          }
+        ]
+      },
+      {
         "tab": "API reference",
         "groups": [
           {

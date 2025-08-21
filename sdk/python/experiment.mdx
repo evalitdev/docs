@@ -1,0 +1,43 @@
+---
+title: Experiment
+---
+
+Run A/B tests between prompt variants.
+
+## Import
+
+```python
+from evalit.experiment import Experiment
+```
+
+## Minimal example
+
+```python
+from evalit.manage import PromptManager
+from evalit.experiment import Experiment
+
+# Prepare prompt variants (usually fetched from PromptManager)
+variants = {
+    "control": {"template": "Echo: {text}"},
+    "challenger": {"template": "Repeat: {text}"}
+}
+
+dataset = [
+    {"id": "1", "inputs": {"text": "hello"}, "expected_output": "hello"},
+    {"id": "2", "inputs": {"text": "world"}, "expected_output": "world"},
+]
+
+# Dummy LLM function
+def llm_function(prompt: str) -> str:
+    # For demo, just return the input after the colon
+    return prompt.split(": ")[-1]
+
+exp = Experiment(name="echo-test", variants=variants)
+exp.run(dataset=dataset, llm_function=llm_function, budget=10)
+report = exp.analyze()
+print(report["winner"])  # e.g., "control"
+```
+
+## Notes
+- Budget is the total number of LLM calls across all variants.
+- Outcome is 1 when expected_output is a substring of the model response.
